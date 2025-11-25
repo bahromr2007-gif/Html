@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Play WebApp</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Chiroyli yuradigan gradient */
+    background: linear-gradient(135deg, #ff4f8b, #3a86ff, #00eaff);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+
+    color: white;
+    text-align: center;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Tugma animatsiyasi */
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #ffffff22;
+    border: 2px solid white;
+    backdrop-filter: blur(4px);
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #ffffff44;
+}
+
+/* Konfetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: white;
+    top: -10px;
+    left: 50%;
+    animation: fall 2s linear forwards;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    to {
+        transform: translateX(calc(-50vw + 100vw * var(--x))) translateY(110vh) rotate(720deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔥 Super Play WebApp</h2>
+<p>Qiziqarli effektlar qo‘shildi!</p>
+
+<button onclick="clicked()">Play!</button>
+
+<script>
+Telegram.WebApp.ready();
+
+// Konfetti funksiyasi
+function createConfetti() {
+    for (let i = 0; i < 30; i++) {
+        let c = document.createElement("div");
+        c.classList.add("confetti");
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.setProperty("--x", Math.random());
+        c.style.background = "hsl(" + Math.random() * 360 + ",100%,70%)";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2000);
+    }
+}
+
+function clicked() {
+    createConfetti();
+    Telegram.WebApp.sendData("play_clicked");
+}
+</script>
+
+</body>
+</html>
